@@ -274,9 +274,9 @@ class DistributedLinagoraSecondaryBlobStoreTest {
 
         given()
             .body(LinagoraEmailSendMethodContract$.MODULE$.bobSendsAMailToAndre(server))
-            .when()
+        .when()
             .post()
-            .then()
+        .then()
             .statusCode(HttpStatus.SC_OK)
             .contentType(JSON)
             .extract()
@@ -289,7 +289,7 @@ class DistributedLinagoraSecondaryBlobStoreTest {
         BucketName bucketName = Flux.from(blobStoreProbe.getPrimaryBlobStoreDAO().listBuckets()).collectList().block().getFirst();
         Group group = new FailedBlobOperationListener.FailedBlobOperationListenerGroup();
 
-        calmlyAwait.atMost(ONE_MINUTE)
+        calmlyAwait.atMost(TEN_SECONDS)
             .untilAsserted(() -> {
                 List<BlobId> expectedBlobIds = Flux.from(blobStoreProbe.getPrimaryBlobStoreDAO().listBlobs(bucketName)).collectList().block();
                 List<EventDeadLetters.InsertionId> insertionIds = blobStoreProbe.getEventDeadLetters().failedIds(group)
